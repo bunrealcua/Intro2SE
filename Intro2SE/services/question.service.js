@@ -15,13 +15,33 @@ const createQuestion = async (req) => {
   return question;
 };
 
+const searchQuestion = async (req) =>
+{
+    const countQuestions = await prisma.questions.count({});
+    if (req.params.offset > countQuestions / req.params.limit)
+    {
+        throw new ApiError (httpStatus.NOT_FOUND, "Not Found Questions Related");
+    }
+
+    const listQuestions = await prisma.questions.findMany(
+        {
+            skip: parseInt(req.params.offset) * parseInt(req.params.limit),
+            take: parseInt(req.params.limit),
+            where : {
+                title : {
+                   contains : req.body.keyword,
+                },
+            },
+        }
+    );
+
+    if (!listQuestions)
+    {
+        throw new ApiError (httpStatus.NOT_FOUND, "There is no questions related to keywords");  
+    }
+    return listQuestions;
+};
 module.exports = {
   createQuestion,
-  deleteQuestionById,
-  updateQuestion,
   searchQuestion,
-  getLatestFeed,
-  GetAnswersByQuestionIDPagination,
-  GetAnswersAndVotings,
-  countAnswerByQuestionID,
 };

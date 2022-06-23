@@ -10,11 +10,13 @@ const createQuestion = catchAsync( async (req, res) => {
     res.status(httpStatus.CREATED).send(question);
 });
 
+const searchQuestion = catchAsync (async (req, res) => {
+    const listQuestions = await questionService.searchQuestion(req);
+    res.send({ Number: listQuestions.length,
+        Questions: listQuestions,});
+});
+
 module.exports = {
     createQuestion,
-    deleteQuestion,
-    updateQuestion,
     searchQuestion,
-    getLatestFeed,
-    getAllAnswersAndVotings,
 };

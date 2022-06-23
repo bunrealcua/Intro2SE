@@ -8,5 +8,9 @@ const route = express.Router();
 route
     .route('/')
     .post(auth('createQuestion'), validate(questionValidation.createQuestion),questionControlller.createQuestion );
-    
+
+route
+    .route('/search/:offset/:limit')
+    .post(auth('searchQuestion'), validate(questionValidation.searchQuestion), questionControlller.searchQuestion);
+
 module.exports = route;
