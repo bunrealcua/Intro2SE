@@ -36,8 +36,6 @@ const setConfiguration = async (req) =>
 };
 
 
-
-
 module.exports = {
   setConfiguration,
 };

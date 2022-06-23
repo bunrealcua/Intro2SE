@@ -7,6 +7,7 @@ const VoteAnswer = {
     body : Joi.object().keys({
         status : Joi.number().required(),
     }),
+    
 };
 
 module.exports = {

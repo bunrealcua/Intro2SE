@@ -11,4 +11,4 @@ router
     .route('/:answerId')
     .post(auth('voteAnswer'),validate(votingValidation.VoteAnswer), votingControlller.VoteAnswer);
 
-module.exports = router;
+module.exports = router; 
