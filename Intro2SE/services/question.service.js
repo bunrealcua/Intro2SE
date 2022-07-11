@@ -50,8 +50,18 @@ const deleteQuestionById = async (questionId) => {
   });
 };
 
+const updateQuestion = async (req) => {
+  const { questionId } = req.params;
+  const question = await prisma.questions.findUnique({
+    where: {
+      id: questionId,
+    },
+  });
+};
+
 module.exports = {
   createQuestion,
   searchQuestion,
-  deleteQuestionById
+  deleteQuestionById,
+  updateQuestion,
 };
