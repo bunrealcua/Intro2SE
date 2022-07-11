@@ -13,4 +13,7 @@ route
     .route('/search/:offset/:limit')
     .post(auth('searchQuestion'), validate(questionValidation.searchQuestion), questionControlller.searchQuestion);
 
+route
+    .route('/:questionId')
+    .delete(auth('deleteQuestion'), validate(questionValidation.deleteQuestion),questionControlller.deleteQuestion);
 module.exports = route;
