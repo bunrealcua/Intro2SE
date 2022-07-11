@@ -26,10 +26,18 @@ const updateQuestion = {
     }),
 };
 
+const getAllAnswersAndVotings = {
+    params : Joi.object().keys({
+        questionId: Joi.string().uuid().required(),
+        page: Joi.number().required(),
+        limit: Joi.number().required(),
+    }),
+};
 module.exports = {
     createQuestion,
     searchQuestion,
     deleteQuestion,
     updateQuestion,
+    getAllAnswersAndVotings,
 };
 

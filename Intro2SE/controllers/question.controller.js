@@ -29,9 +29,21 @@ const updateQuestion = catchAsync ( async (req, res) =>
 }
 
 );
+
+
+const getAllAnswersAndVotings = catchAsync ( async (req, res) => {
+    const questionRecord = await questionService.getQuestionByID(req);
+    const countAnswer = await questionService.countAnswerByQuestionID(req);
+    const answers = await questionService.GetAnswersByQuestionIDPagination (req);
+    const answersAndvotings = await questionService.GetAnswersAndVotings (answers);
+    res.send({question: questionRecord, 
+        answers: {count: countAnswer, data: answersAndvotings}});
+
+}); 
 module.exports = {
     createQuestion,
     searchQuestion,
     deleteQuestion,
     updateQuestion,
+    getAllAnswersAndVotings,
 };

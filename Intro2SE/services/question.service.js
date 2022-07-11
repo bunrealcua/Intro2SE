@@ -59,9 +59,72 @@ const updateQuestion = async (req) => {
   });
 };
 
+const getQuestionByID = async (req) =>
+{
+  const questionRecord = await prisma.questions.findUnique ({
+    where : {id: req.params.questionId,},
+  }); 
+  const userRecord = await prisma.users.findUnique ({
+    where : {id: questionRecord.uid,},
+  }
+  );
+  return {questionInfo: questionRecord, userName: userRecord.name, userAvatarUrl: userRecord.profilepictureurl};
+}
+const GetAnswersByQuestionIDPagination = async(req) => {
+  const answers = await prisma.answers.findMany({
+    skip: req.params.page * req.params.limit,
+    take: req.params.limit,
+    where : {qid: req.params.questionId,},
+  });
+
+  return answers;
+};
+
+const GetAnswersAndVotings = async (answers) => {
+  answersAndvotings = []
+  for (let i = 0; i < answers.length; i++)
+  {
+    const upvotes = await prisma.voting.findMany({
+      where : {aid: answers[i].id, status : true }
+    });
+
+    const downvotes = await prisma.voting.findMany({
+      where : {aid: answers[i].id, status : false }
+    });
+
+    const user = await prisma.users.findUnique({
+      where : {id: answers[i].uid}
+    });
+
+    answersAndvotings.push({
+      answer: answers[i], 
+      count_upvotes: upvotes.length,
+      count_downvotes: downvotes.length,
+      minus_upvote_downvote: upvotes.length - downvotes.length,
+      username: user.username,
+      profilepictureurl: user.profilepictureurl})
+  }
+
+  return answersAndvotings;
+};
+
+const countAnswerByQuestionID = async (req) =>
+{
+  const answers = await prisma.answers.findMany({
+    where : {qid: req.params.questionId,},
+  });
+
+  return answers.length;
+};
+
+
 module.exports = {
   createQuestion,
   searchQuestion,
   deleteQuestionById,
   updateQuestion,
+  getQuestionByID,
+  GetAnswersByQuestionIDPagination,
+  GetAnswersAndVotings,
+  countAnswerByQuestionID,
 };

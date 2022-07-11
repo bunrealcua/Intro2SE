@@ -21,4 +21,8 @@ route
     .route('/:questionId')
     .post(auth('updateQuestion'), validate(questionValidation.updateQuestion),questionControlller.updateQuestion);
 
+route
+    .route('/:questionId/:page/:limit')
+    .get(auth('getAllAnswersAndVotings'), validate(questionValidation.getAllAnswersAndVotings), 
+    questionControlller.getAllAnswersAndVotings);
 module.exports = route;
