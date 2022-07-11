@@ -6,7 +6,10 @@ const questionService = require ('../services/question.service');
 
 const createQuestion = catchAsync( async (req, res) => {
     const question = await questionService.createQuestion(req);
-
+    if (!!question)
+    {
+        throw new ApiError(httpStatus.NOT_FOUND, "Cannot create");
+    }
     res.status(httpStatus.CREATED).send(question);
 });
 
