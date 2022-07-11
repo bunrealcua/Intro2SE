@@ -4,6 +4,9 @@ const allRoles = {
     'voteAnswer',
     'searchQuestion',
     'getMyQuestions',
+    'updateQuestion',
+    'deleteQuestion',
+    'getAllAnswersAndVotings',
   ],
 
   moderator: [],
